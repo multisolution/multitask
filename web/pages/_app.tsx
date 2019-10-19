@@ -11,9 +11,15 @@ const theme = {
 };
 
 const GlobalStyle = createGlobalStyle`
-  * { box-sizing: border-box; transition: all 200ms }
+  @import url('https://fonts.googleapis.com/css?family=PT+Sans:400,700&display=swap');
+  * {
+    box-sizing: border-box;
+    transition: all 200ms;
+    margin: 0; padding: 0;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 14px;
+  }
   html, body, #__next { height: 100%; }
-  body { margin: 0; font-family: sans-serif, font-size: 14px; }
 `;
 
 export default class MyApp extends App {

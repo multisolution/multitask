@@ -6,6 +6,7 @@ const Input = styled.input`
   border: none;
   padding: 8px;
   outline: none;
+  box-shadow: 0px 4px 8px 4px rgba(0, 0, 0, 0.04);
 `;
 
 export default Input;

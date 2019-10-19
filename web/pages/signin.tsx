@@ -12,8 +12,9 @@ const SignIn: React.FunctionComponent = () => {
     <Page>
       <form>
         <Column>
-          <Input name="username"/>
-          <Input name="password" type="password"/>
+          <img src="/logo.png" alt="MultisolutiON"/>
+          <Input name="username" placeholder={t('username')}/>
+          <Input name="password" placeholder={t('password')} type="password"/>
           <Button skin="primary">{t('sign_in')}</Button>
         </Column>
       </form>
