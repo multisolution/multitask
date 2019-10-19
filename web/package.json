@@ -8,9 +8,12 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "i18next": "^17.2.0",
     "next": "^9.1.1",
+    "polished": "^3.4.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-i18next": "^10.13.1",
     "styled-components": "^4.4.0"
   },
   "devDependencies": {
@@ -19,5 +22,10 @@
     "@types/react-dom": "^16.9.2",
     "@types/styled-components": "^4.1.19",
     "typescript": "^3.6.4"
+  },
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
   }
 }

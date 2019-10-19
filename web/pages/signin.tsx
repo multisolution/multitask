@@ -1,19 +1,23 @@
 import React from "react";
-import styled from "styled-components";
-
-const Container = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
+import Page from "../components/page";
+import Input from "../components/input";
+import Button from "../components/button";
+import {useTranslation} from "react-i18next";
+import {Column} from "../components/layout";
 
 const SignIn: React.FunctionComponent = () => {
+  const [t] = useTranslation();
+
   return (
-    <Container>
-      <p>Hello world</p>
-    </Container>
+    <Page>
+      <form>
+        <Column>
+          <Input name="username"/>
+          <Input name="password" type="password"/>
+          <Button skin="primary">{t('sign_in')}</Button>
+        </Column>
+      </form>
+    </Page>
   );
 };
 
