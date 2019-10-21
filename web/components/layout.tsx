@@ -17,3 +17,9 @@ export const Row = styled.div`
   display: flex;
   flex-direction: row;
 `;
+
+export enum Align {
+  Start = 'flex-start',
+  Center = 'center',
+  End = 'flex-end',
+}
