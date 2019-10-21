@@ -4,9 +4,7 @@ namespace Multitask;
 
 use Throwable;
 use function Siler\Encoder\Json\decode;
-use function Siler\GraphQL\execute;
-use function Siler\GraphQL\schema;
-use function Siler\Http\Request\method_is;
+use function Siler\GraphQL\{execute, schema};
 use function Siler\Swoole\{cors, http, json, raw};
 
 $base_dir = __DIR__;
@@ -25,16 +23,13 @@ $resolvers = [
 $schema = schema($type_defs, $resolvers);
 
 $handler = function () use ($schema, $type_defs) {
-    cors('*', 'content-type,authorization');
-
-    if (method_is('options')) {
-        return;
-    }
-
     try {
-        json(execute($schema, decode(raw())));
+        $result = execute($schema, decode(raw()));
     } catch (Throwable $exception) {
-        json(['error' => true, 'message' => 'internal error'], 500);
+        $result = ['error' => true, 'message' => 'internal error'];
+    } finally {
+        cors('*', 'content-type,authorization');
+        json($result);
     }
 };
 
