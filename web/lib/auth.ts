@@ -6,15 +6,15 @@ export async function isLoggedIn(apolloClient: ApolloClient<NormalizedCacheObjec
     try {
         const result = await apolloClient.query({
             query: gql`
-                query user {
-                    me {
-                        id
-                    }
+              query user {
+                me {
+                  id
                 }
+              }
             `
         });
 
-      return result.data;
+      return result.data.me;
     } catch (error) {
       //TODO: Handle errors
       console.error(error);

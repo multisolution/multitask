@@ -18,7 +18,7 @@ export type WithApollo = {
 
 export function withApollo<PageProps>(PageComponent: NextPage, {ssr = true}: { ssr?: boolean } = {}) {
   const WithApollo = ({apolloClient, apolloState, ...pageProps}: WithApollo & PageProps) => {
-    const client = apolloClient || initApolloClient(apolloState, getTokenFromWindow());
+    const client = apolloClient || initApolloClient(apolloState);
     return (
       <ApolloProvider client={client}>
         <PageComponent {...pageProps} />
@@ -40,7 +40,7 @@ export function withApollo<PageProps>(PageComponent: NextPage, {ssr = true}: { s
   if (ssr || PageComponent.getInitialProps) {
     WithApollo.getInitialProps = async (context: NextPageContext & WithApollo) => {
       const {AppTree} = context;
-      const apolloClient = (context.apolloClient = initApolloClient({}, getTokenFromContext(context)));
+      const apolloClient = (context.apolloClient = initApolloClient({}));
 
       const pageProps = PageComponent.getInitialProps
         ? await PageComponent.getInitialProps(context)
@@ -82,19 +82,19 @@ export function withApollo<PageProps>(PageComponent: NextPage, {ssr = true}: { s
   return WithApollo
 }
 
-function initApolloClient(initialState: any, getToken: () => string | null): ApolloClient<NormalizedCacheObject> {
+function initApolloClient(initialState: any): ApolloClient<NormalizedCacheObject> {
   if (typeof window === 'undefined') {
-    return createApolloClient(initialState, getToken);
+    return createApolloClient(initialState);
   }
 
   if (apolloClient === null) {
-    apolloClient = createApolloClient(initialState, getToken);
+    apolloClient = createApolloClient(initialState);
   }
 
   return apolloClient;
 }
 
-function createApolloClient(initialState: any, getToken: () => string | null): ApolloClient<NormalizedCacheObject> {
+function createApolloClient(initialState: any): ApolloClient<NormalizedCacheObject> {
   const fetchOptions = {};
 
   const http = new HttpLink({
@@ -121,27 +121,14 @@ function createApolloClient(initialState: any, getToken: () => string | null): A
   });
 }
 
-function getTokenFromContext(context: NextPageContext): () => string | null {
-  if (context.req && context.req.headers.cookie) {
-    return getToken(context.req.headers.cookie);
+function getToken(context?: NextPageContext): string | null {
+  if (context && context.req) {
+    return cookie.parse(context.req.headers.cookie || '').token || null;
   }
 
-  return getToken('');
-}
-
-function getTokenFromWindow(): () => string | null {
-  if (typeof window !== "undefined") {
-    return getToken(window.document.cookie);
-
+  if (typeof window !== 'undefined') {
+    return cookie.parse(window.document.cookie).token || null;
   }
 
-  return getToken('');
-
-}
-
-function getToken(path: string): () => string | null {
-  return (): string | null => {
-    const cookies = cookie.parse(path);
-    return cookies.token;
-  };
+  return null;
 }

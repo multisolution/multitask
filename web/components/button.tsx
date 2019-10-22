@@ -16,6 +16,10 @@ const Button = styled.button<Props>`
   &:hover {
     background-color: ${props => darken(0.1, props.theme.colors[props.skin])}
   }
+  
+  &:focus {
+    outline: none;
+  }
 `;
 
 export default Button;

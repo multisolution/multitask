@@ -7,6 +7,7 @@ const theme = {
   borderRadius: '4px',
   colors: {
     primary: '#bad531',
+    transparent: 'transparent',
   }
 };
 

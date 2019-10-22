@@ -21,5 +21,10 @@
             "email": "contato@multisolution.art.br"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Multitask\\": "src/"
+        }
+    }
 }

@@ -4,21 +4,31 @@ import Input from "../components/input";
 import Button from "../components/button";
 import {useTranslation} from "react-i18next";
 import {Align, Column} from "../components/layout";
-import {useMutation} from "@apollo/react-hooks";
+import {useApolloClient, useMutation} from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import {withApollo} from "../lib/apollo";
+import {NextPage} from "next";
+import cookie from "cookie";
+import redirect from "../lib/redirect";
 
-const SignIn: React.FunctionComponent = () => {
+type SingInResult = {
+  signIn: {
+    token: string | null;
+  }
+}
+
+const SignIn: NextPage = () => {
   const username = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
+  const apolloClient = useApolloClient();
 
   const [t] = useTranslation();
-    const [signIn] = useMutation(gql`
-        mutation SignIn($username: String!, $password: String!) {
-            signIn(username: $username, password: $password) {
-                token
-            }
+    const [signIn] = useMutation<SingInResult>(gql`
+      mutation SignIn($username: String!, $password: String!) {
+        signIn(username: $username, password: $password) {
+          token
         }
+      }
     `);
 
   async function onSignInClick(event: React.MouseEvent<HTMLButtonElement>) {
@@ -32,6 +42,13 @@ const SignIn: React.FunctionComponent = () => {
             password: password.current.value.trim(),
           }
         });
+
+        if (result.data && result.data.signIn.token) {
+          document.cookie = cookie.serialize('token', result.data.signIn.token);
+          console.log(document.cookie);
+          await apolloClient.cache.reset();
+          redirect(null, '/');
+        }
 
         console.log(result);
       } catch (error) {

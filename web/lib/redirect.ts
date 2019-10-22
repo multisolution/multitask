@@ -1,8 +1,8 @@
 import Router from 'next/router'
 import {NextPageContext} from "next";
 
-export default (context: NextPageContext, target: string) => {
-  if (context.res) {
+export default (context: NextPageContext | null, target: string) => {
+  if (context != null && context.res) {
     // server
     // 303: "See other"
     context.res.writeHead(303, {Location: target});

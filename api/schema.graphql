@@ -1,7 +1,16 @@
 type User {
-    id: Int!
+  id: Int!
 }
 
 type Query {
-    me: User
+  me: User
+}
+
+type Mutation {
+  signIn(username: String!, password: String!): SignInResponse
+  signOut: Boolean
+}
+
+type SignInResponse {
+  token: String
 }
