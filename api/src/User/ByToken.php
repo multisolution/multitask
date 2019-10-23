@@ -2,18 +2,15 @@
 
 namespace Multitask\User;
 
+use Firebase\JWT\JWT;
+use Multitask\Context;
 use Multitask\User;
 
 class ByToken
 {
-    public function __invoke(string $token): ?User
+    public function __invoke(Context $context, string $token): ?User
     {
-        if ($token === 'adminadmin') {
-            $user = new User();
-            $user->id = 8;
-            return $user;
-        }
-
-        return null;
+        $token = JWT::decode($token, $context->appKey, ['HS256']);
+        return $context->db->getUserById($token->userId);
     }
 }

@@ -1,10 +1,8 @@
 type User {
-  id: Int!
+  id: ID!
+  email: String!
 }
 
-type Query {
-  me: User
-}
 type Task {
   allocated: String
   title: String
@@ -20,6 +18,10 @@ input TaskInput {
   taskType: String
   taskProject: String
   taskDescription: String
+}
+
+type Query {
+  me: User
 }
 
 type Mutation {
