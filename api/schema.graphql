@@ -5,10 +5,27 @@ type User {
 type Query {
   me: User
 }
+type Task {
+  allocated: String
+  title: String
+  taskType: String
+  taskProject: String
+  taskDescription: String
+  id: Int
+}
+
+input TaskInput {
+  allocated: String
+  title: String
+  taskType: String
+  taskProject: String
+  taskDescription: String
+}
 
 type Mutation {
   signIn(username: String!, password: String!): SignInResponse
   signOut: Boolean
+  createTask(input: TaskInput): Task
 }
 
 type SignInResponse {

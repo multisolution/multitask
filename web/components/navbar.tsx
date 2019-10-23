@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Button from "./button";
-import {useTranslation} from "react-i18next";
-import {useApolloClient, useMutation} from "@apollo/react-hooks";
+import { useTranslation } from "react-i18next";
+import { useApolloClient, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import cookie from "cookie";
 import redirect from "../lib/redirect";
@@ -25,6 +25,9 @@ const Right = styled.div`
   flex: 1;
   display: flex;
   justify-content: flex-end;
+  &>* {
+    margin-left:8px;
+  }
 `;
 
 type SignOutResult = {
@@ -34,7 +37,7 @@ type SignOutResult = {
 const NavBar: React.FunctionComponent = () => {
   const [t] = useTranslation();
   const apolloClient = useApolloClient();
-    const [signOut] = useMutation<SignOutResult>(gql`
+  const [signOut] = useMutation<SignOutResult>(gql`
       mutation SignOut {
         signOut
       }
@@ -58,14 +61,28 @@ const NavBar: React.FunctionComponent = () => {
       //TODO: Handle error
       console.error(error);
     }
+
+
+  }
+  async function createTask(event: React.MouseEvent<HTMLButtonElement>) {
+    redirect(null, '/create-task');
+
   }
 
   return (
     <Nav>
       <Left>
-        <img src="/logo.png" alt="MultisolutiON"/>
+        <img src="/logo.png" alt="MultisolutiON" />
       </Left>
       <Right>
+        <Button skin="primary" onClick={createTask}>
+          {t('new_task')}
+        </Button>
+
+
+
+
+
         <Button skin="transparent" onClick={onSignOutClick}>
           {t('sign_out')}
         </Button>

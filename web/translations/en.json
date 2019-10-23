@@ -2,5 +2,12 @@
   "sign_in": "Sign in",
   "sign_out": "Sign out",
   "username": "Username",
-  "password": "Password"
+  "password": "Password",
+  "new_task": "New task",
+  "allocated": "Allocated",
+  "task_type": "Task type",
+  "task_project": "Task project",
+  "task_description": "Task description",
+  "create_task": "Criar tarefa",
+  "task_title": "Task title"
 }

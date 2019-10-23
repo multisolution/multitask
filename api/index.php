@@ -12,6 +12,7 @@ use function Siler\Swoole\{cors, http, json, raw, request};
 $base_dir = __DIR__;
 require_once "$base_dir/vendor/autoload.php";
 
+
 $type_defs = file_get_contents("$base_dir/schema.graphql");
 
 $resolvers = [
@@ -29,8 +30,12 @@ $resolvers = [
         'signOut' => function () {
             return true;
         },
+        'createTask' => new Task\Create(),
+        
     ]
 ];
+
+
 
 $schema = schema($type_defs, $resolvers);
 
