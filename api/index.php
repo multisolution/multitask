@@ -44,9 +44,7 @@ $context->db->saveUser($root);
 $handler = function () use ($schema, $context) {
     try {
         $context->user = maybe(bearer())
-            ->bind(function (string $token) use ($context) {
-                return (new User\ByToken())($context, $token);
-            })
+            ->bind(new User\ByToken($context))
             ->return();
 
         $result = execute($schema, decode(raw()), [], $context);

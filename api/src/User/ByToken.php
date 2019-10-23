@@ -8,9 +8,17 @@ use Multitask\User;
 
 class ByToken
 {
-    public function __invoke(Context $context, string $token): ?User
+    /** @var Context */
+    private $context;
+
+    public function __construct(Context $context)
     {
-        $token = JWT::decode($token, $context->appKey, ['HS256']);
-        return $context->db->getUserById($token->userId);
+        $this->context = $context;
+    }
+
+    public function __invoke(string $token): ?User
+    {
+        $token = JWT::decode($token, $this->context->appKey, ['HS256']);
+        return $this->context->db->getUserById($token->userId);
     }
 }
