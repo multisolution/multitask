@@ -8,7 +8,7 @@ use Throwable;
 use function Siler\Encoder\Json\decode;
 use function Siler\Functional\Monad\maybe;
 use function Siler\GraphQL\{debug, execute, schema};
-use function Siler\Swoole\{cors, http, json, raw, request};
+use function Siler\Swoole\{bearer, cors, http, json, raw};
 
 $base_dir = __DIR__;
 require_once "$base_dir/vendor/autoload.php";
@@ -41,17 +41,16 @@ $root->email = 'multi';
 $root->password = password_hash('task', PASSWORD_DEFAULT);
 $context->db->saveUser($root);
 
-$handler = function () use ($schema, $context) {
+$user_by_token = new User\ByToken();
+
+$handler = function () use ($schema, $context, $user_by_token) {
     try {
-        $header = maybe(request()->header['authorization'] ?? null);
-        $token = $header(function (string $token): ?string {
-            $token = substr($token, 7);
-            return $token === false ? null : $token;
-        });
-        $user = $token(function (string $token) use ($context): ?User {
-            return (new User\ByToken())($context, $token);
-        });
-        $context->user = $user();
+        $context->user = maybe(bearer())
+            ->bind(function (string $token) use ($user_by_token) {
+                return $user_by_token($token);
+            })
+            ->return();
+
         $result = execute($schema, decode(raw()), [], $context);
     } catch (Throwable $exception) {
         // TODO: Handle error

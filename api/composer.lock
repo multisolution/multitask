@@ -289,12 +289,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/leocavalcante/siler.git",
-                "reference": "75b98a84d639ef3f43dbd3fd161c2d8013a56ef6"
+              "reference": "af0fa8b5510f55358683abb6d7aa794e7ccdf7de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leocavalcante/siler/zipball/75b98a84d639ef3f43dbd3fd161c2d8013a56ef6",
-                "reference": "75b98a84d639ef3f43dbd3fd161c2d8013a56ef6",
+              "url": "https://api.github.com/repos/leocavalcante/siler/zipball/af0fa8b5510f55358683abb6d7aa794e7ccdf7de",
+              "reference": "af0fa8b5510f55358683abb6d7aa794e7ccdf7de",
                 "shasum": ""
             },
             "require": {
@@ -375,7 +375,7 @@
                 "router",
                 "swoole"
             ],
-            "time": "2019-10-14T23:47:28+00:00"
+        "time": "2019-10-23T20:49:45+00:00"
         },
         {
             "name": "monolog/monolog",
