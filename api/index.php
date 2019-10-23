@@ -41,13 +41,11 @@ $root->email = 'multi';
 $root->password = password_hash('task', PASSWORD_DEFAULT);
 $context->db->saveUser($root);
 
-$user_by_token = new User\ByToken();
-
-$handler = function () use ($schema, $context, $user_by_token) {
+$handler = function () use ($schema, $context) {
     try {
         $context->user = maybe(bearer())
-            ->bind(function (string $token) use ($user_by_token) {
-                return $user_by_token($token);
+            ->bind(function (string $token) use ($context) {
+                return (new User\ByToken())($context, $token);
             })
             ->return();
 
